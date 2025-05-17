@@ -10,8 +10,9 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "cd frontend && npm install && npm run build",
     "vercel-build": "cd frontend && npm install && npm run build",
+    "netlify-build": "cd frontend && npm install && npm run build && cd ../netlify/functions && npm install",
     "postinstall": "npm run build",
-    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install && cd ../netlify/functions && npm install"
   },
   "keywords": [
     "quiz",
@@ -25,5 +26,8 @@
   "devDependencies": {
     "concurrently": "^8.2.2",
     "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "serverless-http": "^3.2.0"
   }
 }
