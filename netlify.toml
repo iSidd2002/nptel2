@@ -1,6 +1,6 @@
 [build]
   base = "."
-  command = "cd frontend && npm install && npm run build"
+  command = "cd frontend && npm install && npm run build && cd ../netlify/functions && npm install"
   publish = "frontend/dist"
   functions = "netlify/functions"
 
@@ -11,6 +11,9 @@
   publish = "frontend/dist"
   functions = "netlify/functions"
   functionsPort = 9999
+
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"
 
 [[redirects]]
   from = "/api/*"
