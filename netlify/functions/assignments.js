@@ -556,7 +556,8 @@ exports.handler = async (event, context) => {
     // Get all assignments
     if (
       event.httpMethod === "GET" &&
-      event.path === "/.netlify/functions/assignments"
+      (event.path === "/.netlify/functions/assignments" ||
+        event.path === "/.netlify/functions/assignments/")
     ) {
       const assignments = quizData.map((quiz) => ({
         id: quiz.id,
