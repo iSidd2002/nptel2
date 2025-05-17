@@ -16,8 +16,8 @@
   package = "@netlify/plugin-functions-install-core"
 
 [[redirects]]
-  from = "/.netlify/functions/api/*"
-  to = "/.netlify/functions/api/:splat"
+  from = "/api/*"
+  to = "/.netlify/functions/assignments/:splat"
   status = 200
   force = true
 
