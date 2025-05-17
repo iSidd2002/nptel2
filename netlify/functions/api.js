@@ -10,6 +10,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Log all requests for debugging
+app.use((req, res, next) => {
+  console.log(`Request: ${req.method} ${req.path}`);
+  next();
+});
+
 // Helper function to read assignments directory
 const getAssignmentsPath = () => {
   // In Netlify Functions, we need to use a different path
@@ -17,7 +23,7 @@ const getAssignmentsPath = () => {
 };
 
 // Routes
-app.get("/api/assignments", (req, res) => {
+app.get("/assignments", (req, res) => {
   try {
     const assignmentsDir = getAssignmentsPath();
     const files = fs.readdirSync(assignmentsDir);
@@ -46,7 +52,7 @@ app.get("/api/assignments", (req, res) => {
   }
 });
 
-app.get("/api/assignments/:id", (req, res) => {
+app.get("/assignments/:id", (req, res) => {
   try {
     const { id } = req.params;
     const assignmentsDir = getAssignmentsPath();
@@ -81,7 +87,7 @@ app.get("/api/assignments/:id", (req, res) => {
   }
 });
 
-app.post("/api/assignments/:id/submit", (req, res) => {
+app.post("/assignments/:id/submit", (req, res) => {
   try {
     const { id } = req.params;
     const { answers } = req.body;
