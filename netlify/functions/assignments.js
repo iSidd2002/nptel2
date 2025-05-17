@@ -1967,22 +1967,24 @@ exports.handler = async (event, context) => {
       const results = assignment.questions.map((question, index) => {
         const userAnswer = answers[index];
 
-        // Check if correctAnswer is a string (the actual answer) or an index
+        // In our case, correctAnswer is always the actual answer text
         let isCorrect = false;
-        let correctAnswer = question.correctAnswer;
+        let correctAnswerIndex = 0;
 
-        if (typeof correctAnswer === "number") {
-          // If correctAnswer is an index
-          isCorrect = userAnswer === correctAnswer;
-        } else {
-          // If correctAnswer is the actual answer text
-          isCorrect = question.options[userAnswer] === correctAnswer;
-          // Convert correctAnswer to index for frontend
-          correctAnswer = question.options.findIndex(
-            (option) => option === question.correctAnswer
+        // Find the index of the correct answer
+        correctAnswerIndex = question.options.findIndex(
+          (option) => option === question.correctAnswer
+        );
+
+        if (correctAnswerIndex === -1) {
+          console.error(
+            `Could not find correct answer "${question.correctAnswer}" in options for question ${question.id}`
           );
-          if (correctAnswer === -1) correctAnswer = 0; // Default to first option if not found
+          correctAnswerIndex = 0; // Default to first option if not found
         }
+
+        // Check if user's answer is correct
+        isCorrect = userAnswer === correctAnswerIndex;
 
         if (isCorrect) {
           score++;
@@ -1991,7 +1993,7 @@ exports.handler = async (event, context) => {
         return {
           questionId: question.id,
           isCorrect,
-          correctAnswer,
+          correctAnswer: correctAnswerIndex,
           userAnswer,
         };
       });
